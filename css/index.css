@@ -1,0 +1,61 @@
+* {
+    margin: 0;
+    padding: 0;
+    text-shadow: 2px 2px 2px black;
+}
+
+body {
+    background: radial-gradient(ellipse at center, rgb(116, 127, 172) 0%, #fff 100%) center center / cover no-repeat fixed;
+   
+}
+
+.container {
+    height: auto;
+    width: 90%;
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    row-gap: 30px;
+    column-gap: 20px;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.citem {
+    color: #eec17c;
+    border: 1px solid black;
+    border-radius: 10px;
+    padding-top: 30px;
+    width: 300px;
+    height: 310px;
+    padding-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.citem:hover {
+    transform: scale(1.1); /* Scale the item */
+    position: relative;
+    z-index: 10; /* Put the hovered item on top */
+    box-shadow: 0 10px 10px 10px rgba(35, 35, 35, 0.36);
+  }
+
+h2 {
+    text-align: center;
+}
+.citem:nth-child(even) {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.711), rgba(128, 128, 128, 0.414), rgba(255, 255, 255, 0.711));
+}
+
+.citem:nth-child(odd) {
+    background: linear-gradient(45deg, rgba(255, 255, 255, 0.711), rgba(128, 128, 128, 0.414), rgba(255, 255, 255, 0.711));
+}
+
+header {
+    height: 100vh;
+    width: 100%;
+    background-image: url("https://est.uit.ac.ma/wp-content/uploads/2018/08/aditya-chinchure-494048-unsplash.jpg");
+    /* background-repeat: non; */
+    margin-bottom: 20px;
+}

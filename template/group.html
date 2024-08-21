@@ -1,0 +1,10 @@
+{{define "group"}}
+<img src="{{.Group.Image}}" alt="Image For {{.Group.Name}}">
+      <h2 class="creationDate">{{.Group.CreationDate}}</h2>
+      <h3>Group Name: {{.Group.Name}}</h3>
+      <ul>
+        {{range .Group.Members}}
+        <li>{{.}}</li>
+        {{end}}
+      </ul>
+{{end}}

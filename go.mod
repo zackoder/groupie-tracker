@@ -1,3 +1,3 @@
-module github.com/zackoder/groupie-tracker
+module groupie
 
 go 1.22.2
