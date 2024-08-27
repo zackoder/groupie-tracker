@@ -31,7 +31,7 @@ h3 {
 }
 
 body {
-    background-image: url("https://images.pexels.com/photos/325811/pexels-photo-325811.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
+    background-image: url("https://www.shutterstock.com/shutterstock/photos/2128959116/display_1500/stock-vector-abstract-waving-particle-technology-background-design-abstract-wave-moving-dots-flow-particles-hi-2128959116.jpg");
     color: #e6e696;
     background-repeat: no-repeat;
     background-size: 100% auto;
@@ -50,8 +50,8 @@ body {
 
 .container {
     padding:  20px 0 ;
-    width: 60%;
-    height: 500px;
+    width: 35%;
+    height: 85vh;
     margin: auto;
     display: flex;
     flex-direction: column;

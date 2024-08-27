@@ -108,7 +108,8 @@ func JsHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func StyleH(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path == "/css" {
+	fmt.Println("Requested URL path:", r.URL.Path) 
+	if strings.HasPrefix(r.URL.Path, "/css")  {
 		NotFounderr(w)
 		return
 	}
