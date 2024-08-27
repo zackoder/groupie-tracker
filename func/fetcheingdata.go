@@ -42,26 +42,27 @@ func ArtistsData(url string, tar interface{}) error {
 	resp, err := http.Get(url)
 	if err != nil {
 		fmt.Println(err)
-		return fmt.Errorf("Internal Server Error 500")
+		return fmt.Errorf("500 Internal Server Error 500")
 	}
 
 	defer resp.Body.Close()
 	
 	body, err := CheckingResp(resp)
 	if err != nil {
-		return fmt.Errorf("Internal Server Error 500")
+		return err
 	}
 
 	err = json.Unmarshal(body, &tar)
+	
 	if err != nil {
-		return fmt.Errorf("Internal Server Error 500")
+		return fmt.Errorf("500 Internal Server Error 500")
 	}
 	return nil
 }
 
 func CheckingResp(resp *http.Response) (body []byte, err error) {
 	if resp.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("Failed to fetch data: %s", resp.Status)
+		return nil, fmt.Errorf("500 Internal Server Error 500")
 	}
 
 	body, err = io.ReadAll(resp.Body)
