@@ -1,0 +1,14 @@
+{{ define "relation" }}
+
+<div class="relation">
+    <h2>Dates for Future Concerts</h2>
+    {{ range $key, $value := .Relations.DatesLocations }}
+    <ul>location: {{$key}}
+        {{ range $date := $value }}
+        <li class="rdate">{{$date}}</li>
+        {{ end }}
+    </ul>
+    {{ end }}
+</div>
+
+{{ end }}

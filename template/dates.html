@@ -1,7 +1,10 @@
 {{define "dates"}}
-    <ul cless="concertDates">concert Dates:
+<div class="dates">
+    <h2>concert Dates:</h2>
+    <ul cless="concertDates">
         {{range .Date.Dates}}
         <li>{{.}}</li>
         {{end}}
     </ul>
+</div>
 {{end}}
