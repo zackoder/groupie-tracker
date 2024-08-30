@@ -15,7 +15,7 @@ func main() {
 	http.HandleFunc("/css", groupie.StyleH)
 
 	cssDir := http.StripPrefix("/css/", http.FileServer(http.Dir("./css")))
-    http.Handle("/css", cssDir)
+    http.Handle("/css/", cssDir)
 
 	jsDir := http.StripPrefix("/js/", http.FileServer(http.Dir("./js")))
     http.Handle("/js/", jsDir)
