@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="../css/index.css" />
     <title>Groupie Tracker</title>
   </head>
   <body>
@@ -13,10 +13,10 @@
     <div class="container">
       {{range .}}
       <div class="citem">
-          <img src="{{.Image}}" alt="Image of {{.Name}}" />
-          <h2>{{.Name}}</h2>
-          <h3 class="creationDate">Creation Date: {{.CreationDate}}</h3>
-          <h3 class="fristAlbum">First Album: {{.FirstAlbum}}</h3>
+        <img src="{{.Image}}" alt="Image of {{.Name}}" />
+        <h2>{{.Name}}</h2>
+        <h3 class="creationDate">Creation Date: {{.CreationDate}}</h3>
+        <h3 class="fristAlbum">First Album: {{.FirstAlbum}}</h3>
       </div>
       {{end}}
     </div>

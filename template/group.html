@@ -1,13 +1,15 @@
 {{define "group"}}
-<div class="groupcontainer">
-  <img src="{{.Group.Image}}" alt="Image For {{.Group.Name}}">
-    <h1>Group Name: {{.Group.Name}}</h1>
-      <h2 class="creationDate">Creation Date: {{.Group.CreationDate}}</h2>
-      <h3>Members:</h3>
-      <ul class="members">
-        {{range .Group.Members}}
-        <li>{{.}}</li>
-        {{end}}
-      </ul>
+<div>
+  <div class="imgc">
+    <img src="{{.Group.Image}}" alt="Image For {{.Group.Name}}" />
+  </div>
+  <h1>Group Name: {{.Group.Name}}</h1>
+  <h2 class="creationDate">Creation Date: {{.Group.CreationDate}}</h2>
+  <h3>Members:</h3>
+  <ul class="members">
+    {{range .Group.Members}}
+    <li>{{.}}</li>
+    {{end}}
+  </ul>
 </div>
 {{end}}
