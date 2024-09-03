@@ -1,3 +1,7 @@
+* {
+  margin: 0;
+  padding: 0;
+}
 body {
     background: radial-gradient(
         ellipse at center,
@@ -8,6 +12,37 @@ body {
       color: #e6e696;
       text-shadow: 1px 1px 3px #000, 1px 1px 3px #000, -1px 1px 5px #000,
       1px 1px 5px #000;
+      display: flex;
+      flex-direction: column;
+      justify-self: center;
+      align-items: center;
+}
+
+footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  background-color: rgb(90, 90, 90);
+  height: 15px;
+  color: white;
+  overflow: hidden;
+  transition: height 0.3s ease-in-out; /* Smooth transition for height */
+}
+
+footer:hover {
+  height: 100px; /* Expand the footer on hover */
+}
+
+footer p {
+  opacity: 0; /* Hide the content initially */
+  transition: opacity 0.3s ease-in-out; /* Smooth transition for opacity */
+}
+
+footer:hover p {
+  opacity: 1; /* Show the content on hover */
 }
 
 .container {
