@@ -14,7 +14,7 @@ body {
 }
 
 header {
-  height: 45vh;
+  height: 20vh;
   width: 100%;
   background-repeat: no-repeat;
   background-size: 100% auto;
@@ -30,6 +30,8 @@ header h1 {
   width: 100%;
   z-index: 11;
   position: fixed;
+  box-shadow: 10px 5px 20px rgba(80, 80, 80, 0.759),
+  -10px 5px 20px rgba(80, 80, 80, 0.759);
 }
 
 
