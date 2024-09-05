@@ -1,116 +1,86 @@
 package groupie
 
 import (
-	"fmt"
 	"html/template"
 	"net/http"
 	"regexp"
 	"strings"
 )
 
+var Tmp *template.Template
+
+func init() {
+	// Parse all templates once globally
+	Tmp = template.Must(template.ParseGlob("template/*.html"))
+}
+
+// Simplified error handling
 func Index(w http.ResponseWriter, r *http.Request) {
-	tmp, err := template.ParseFiles("./template/index.html")
-	if err != nil {
-		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
-		return
-	}
-	if r.Method != http.MethodGet {
-		http.Error(w, http.StatusText(http.StatusMethodNotAllowed), http.StatusMethodNotAllowed)
-		return
-	}
-	if r.Method != http.MethodGet {
-		MethodNotAllowed(w)
+	if r.URL.Path != "/" {
+		HandleError(w, nil, http.StatusNotFound, "Not Found")
 		return
 	}
 
-	if r.URL.Path != "/" {
-		NotFounderr(w)
+	if r.Method != http.MethodGet {
+		HandleError(w, nil, http.StatusMethodNotAllowed, "Method Not Allowed")
 		return
 	}
 
 	var artists []Group
-	url := "https://groupietrackers.herokuapp.com/api/artists"
-	err = ArtistsData(url, &artists)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+	if err := ArtistsData(w, "https://groupietrackers.herokuapp.com/api/artists", &artists); err != nil {
 		return
 	}
-	tmp.Execute(w, artists)
+
+	if err := Tmp.ExecuteTemplate(w, "index.html", artists); err != nil {
+		HandleError(w, err, http.StatusInternalServerError, "Template rendering error")
+		return
+	}
 }
 
 func ArtistsInfo(w http.ResponseWriter, r *http.Request) {
-	tmp, err := template.ParseGlob("./template/*.html")
-	if err != nil {
-		fmt.Println(err)
-		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+	if r.Method != http.MethodGet {
+		HandleError(w, nil, http.StatusMethodNotAllowed, "Method Not Allowed")
 		return
 	}
 
-	if r.Method != http.MethodGet {
-		http.Error(w, http.StatusText(http.StatusMethodNotAllowed), http.StatusMethodNotAllowed)
-		return
-	}
-	patren := `/group/\d+$`
-	re := regexp.MustCompile(patren)
 	path := r.URL.Path
-	if !re.MatchString(path) {
-		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
+	if !regexp.MustCompile(`/group/\d+$`).MatchString(path) {
+		HandleError(w, nil, http.StatusNotFound, "Not Found")
 		return
 	}
 
 	id := strings.TrimPrefix(path, "/group/")
 	var group Group
 	var locations Locations
-	var consertDates Date
+	var concertDates Date
 	var relations Relations
 
-	groupUrl := "https://groupietrackers.herokuapp.com/api/artists/" + id
-	locarionUrl := "https://groupietrackers.herokuapp.com/api/locations/" + id
-	consertDatesUrl := "https://groupietrackers.herokuapp.com/api/dates/" + id
-	relationsUrl := "https://groupietrackers.herokuapp.com/api/relation/" + id
+	apiUrls := map[string]interface{}{
+		"https://groupietrackers.herokuapp.com/api/artists/" + id:   &group,
+		"https://groupietrackers.herokuapp.com/api/locations/" + id: &locations,
+		"https://groupietrackers.herokuapp.com/api/dates/" + id:     &concertDates,
+		"https://groupietrackers.herokuapp.com/api/relation/" + id:  &relations,
+	}
 
-	if err := ArtistsData(groupUrl, &group); err != nil {
-		http.Error(w, "This group does not exist", http.StatusNotFound)
-		fmt.Printf("Faild to fetch data from the Url:\n\t    ---------------------------------------------------\n\t|  %s  |\n\t    ---------------------------------------------------\n", groupUrl)
-		return
+	for url, target := range apiUrls {
+		if err := ArtistsData(w, url, target); err != nil {
+			return
+		}
 	}
-	if err := ArtistsData(locarionUrl, &locations); err != nil {
-		http.Error(w, "This group does not exist", http.StatusNotFound)
-		fmt.Printf("Faild to fetch data from the Url:\n\t    ---------------------------------------------------\n\t|  %s  |\n\t    ---------------------------------------------------\n", locarionUrl)
-		return
-	}
-	if err := ArtistsData(consertDatesUrl, &consertDates); err != nil {
-		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
-		fmt.Printf("Faild to fetch data from the Url:\n\t    ---------------------------------------------------\n\t|  %s  |\n\t\t    ---------------------------------------------------\n", consertDatesUrl)
-		return
-	}
-	if err := ArtistsData(relationsUrl, &relations); err != nil {
-		http.Error(w, "This group does not exist", http.StatusInternalServerError)
-		fmt.Printf("Faild to fetch data from the Url:\n\t    ---------------------------------------------------\n\t|  %s  |\n\t    -------------------------------------------------\n", relationsUrl)
+
+	if group.Id == 0 {
+		HandleError(w, nil, http.StatusNotFound, "Not Found")
 		return
 	}
 
 	groupInfo := GroupInfo{
 		Group:     group,
 		Locations: locations,
-		Date:      consertDates,
+		Date:      concertDates,
 		Relations: relations,
 	}
-	tmp.ExecuteTemplate(w, "groupinfo.html", groupInfo)
-}
 
-
-func JsHandler(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path == "/js" {
-		NotFounderr(w)
-		return
-	}
-}
-
-func StyleH(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("Requested URL path:", r.URL.Path) 
-	if strings.HasPrefix(r.URL.Path, "/css")  {
-		NotFounderr(w)
-		return
+	if err := Tmp.ExecuteTemplate(w, "groupinfo.html", groupInfo); err != nil {
+		HandleError(w, err, http.StatusInternalServerError, "Template rendering error")
 	}
 }

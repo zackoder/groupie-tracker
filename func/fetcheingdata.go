@@ -3,71 +3,58 @@ package groupie
 import (
 	"encoding/json"
 	"fmt"
-	"io"
 	"net/http"
 )
 
-
 type Group struct {
-	Id int `json:"id"`
-	Image string `json:"image"`
-	Name string `json:"name"`
-	Members []string `json:"members"`
-	CreationDate int `json:"creationDate"`
-	FirstAlbum string `json:"firstAlbum"`
+	Id           int      `json:"id"`
+	Image        string   `json:"image"`
+	Name         string   `json:"name"`
+	Members      []string `json:"members"`
+	CreationDate int      `json:"creationDate"`
+	FirstAlbum   string   `json:"firstAlbum"`
 }
 
 type Locations struct {
-	Id int `json:"id"`
+	Id        int      `json:"id"`
 	Locations []string `json:"locations"`
 }
 
 type Date struct {
-	Id int `json:"id"`
+	Id    int      `json:"id"`
 	Dates []string `json:"dates"`
 }
 type Relations struct {
-	Id int `json:"id"`
+	Id             int                 `json:"id"`
 	DatesLocations map[string][]string `json:"datesLocations"`
 }
 
 type GroupInfo struct {
-	Group Group
+	Group     Group
 	Locations Locations
-	Date Date
+	Date      Date
 	Relations Relations
 }
 
-func ArtistsData(url string, tar interface{}) error {
+
+// ArtistsData simplifies external API fetching
+func ArtistsData(w http.ResponseWriter, url string, tar interface{}) error {
 	resp, err := http.Get(url)
 	if err != nil {
-		fmt.Println(err)
-		return fmt.Errorf("500 Internal Server Error 500")
+		HandleError(w, err, http.StatusInternalServerError, "Failed to fetch data")
+		return err
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		HandleError(w, fmt.Errorf("Status: %d", resp.StatusCode), http.StatusInternalServerError, "Bad response from server")
+		return fmt.Errorf("Bad response")
 	}
 
-	defer resp.Body.Close()
-	
-	body, err := CheckingResp(resp)
-	if err != nil {
+	if err := json.NewDecoder(resp.Body).Decode(tar); err != nil {
+		HandleError(w, err, http.StatusNotFound, "Not Found")
 		return err
 	}
 
-	err = json.Unmarshal(body, &tar)
-	
-	if err != nil {
-		return fmt.Errorf("500 Internal Server Error 500")
-	}
 	return nil
-}
-
-func CheckingResp(resp *http.Response) (body []byte, err error) {
-	if resp.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("500 Internal Server Error 500")
-	}
-
-	body, err = io.ReadAll(resp.Body)
-	if err != nil {
-		return nil, err
-	}
-	return body, nil
 }

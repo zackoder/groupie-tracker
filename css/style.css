@@ -3,19 +3,19 @@
   padding: 0;
 }
 body {
-    background: radial-gradient(
-        ellipse at center,
-        rgb(116, 127, 172) 0%,
-        #fff 100%
-      )
-      center center / cover no-repeat fixed;
-      color: #e6e696;
-      text-shadow: 1px 1px 3px #000, 1px 1px 3px #000, -1px 1px 5px #000,
-      1px 1px 5px #000;
-      display: flex;
-      flex-direction: column;
-      justify-self: center;
-      align-items: center;
+  background: radial-gradient(
+      ellipse at center,
+      rgb(116, 127, 172) 0%,
+      #fff 100%
+    )
+    center center / cover no-repeat fixed;
+  color: #e6e696;
+  text-shadow: 1px 1px 3px #000, 1px 1px 3px #000, -1px 1px 5px #000,
+    1px 1px 5px #000;
+  display: flex;
+  flex-direction: column;
+  justify-self: center;
+  align-items: center;
 }
 
 footer {
@@ -46,87 +46,86 @@ footer:hover p {
 }
 
 .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .container div {
-    width: 90%;
+  width: 90%;
 }
 
 .container div .imgc {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }
 
 ul {
-    list-style: none;
+  list-style: none;
 }
 
 
 @media screen and (min-width: 400px) {
-    ul {
-        list-style: none;
-        font-size: 1.6rem;
-        padding: 0;
-        margin: 0;
-      }
-      
-      h2 {
-        font-size: 2rem;
-        text-align: center;
-      }
-      
-      h3 {
-        font-size: 1.75rem;
-      }
-      .groupcontainer {
-        display: flex;
-        align-items: center;
-        flex-direction: column;
-      }
-      
-      body {
-        background: radial-gradient(
-            ellipse at center,
-            rgb(116, 127, 172) 0%,
-            #fff 100%
-          )
-          center center / cover no-repeat fixed;
-        color: #e6e696;
-        background-repeat: no-repeat;
-        background-size: 100% auto;
-        background-position: center;
-        text-shadow: 1px 1px 3px #000, 1px 1px 3px #000, -1px 1px 5px #000,
-          1px 1px 5px #000;
-        height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        overflow: hidden;
-      }
-      
-      .container {
-        padding: 20px 0;
-        width: 100%;
-        max-width: 500px;
-        height: 85vh;
-        margin: auto;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        overflow: scroll;
-        scrollbar-width: none;
-        background: linear-gradient(
-          135deg,
-          rgba(255, 255, 255, 0.711),
-          rgba(86, 86, 86, 0.414),
-          rgba(255, 255, 255, 0.711)
-        );
-        border-radius: 8px;
-      }
-      
+  ul {
+    list-style: none;
+    font-size: 1.6rem;
+    padding: 0;
+    margin: 0;
+  }
+
+  h2 {
+    font-size: 2rem;
+    text-align: center;
+  }
+
+  h3 {
+    font-size: 1.75rem;
+  }
+  .groupcontainer {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  body {
+    background: radial-gradient(
+        ellipse at center,
+        rgb(116, 127, 172) 0%,
+        #fff 100%
+      )
+      center center / cover no-repeat fixed;
+    color: #e6e696;
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+    background-position: center;
+    text-shadow: 1px 1px 3px #000, 1px 1px 3px #000, -1px 1px 5px #000,
+      1px 1px 5px #000;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  .container {
+    padding: 20px 0;
+    width: 100%;
+    max-width: 500px;
+    height: 85vh;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: scroll;
+    scrollbar-width: none;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.711),
+      rgba(86, 86, 86, 0.414),
+      rgba(255, 255, 255, 0.711)
+    );
+    border-radius: 8px;
+  }
 }

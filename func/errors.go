@@ -1,11 +1,24 @@
 package groupie
 
-import "net/http"
+import (
+	"fmt"
+	"net/http"
+)
 
-func NotFounderr(w http.ResponseWriter) {
-	http.Error(w, "Page Not Found 404", http.StatusNotFound)
+type ErrorMsg struct {
+	Code int
+	Msg  string
 }
 
-func MethodNotAllowed(w http.ResponseWriter) {
-	http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
+// Centralized error handling
+func HandleError(w http.ResponseWriter, err error, status int, msg string) {
+	Tmp.ParseFiles("err.html")
+	Message := ErrorMsg{status, msg}
+	w.WriteHeader(status)
+	if err != nil {
+		fmt.Println("Error:", err)
+	}
+	if err := Tmp.ExecuteTemplate(w, "err.html", Message); err != nil {
+		fmt.Println(err.Error())
+	}
 }
