@@ -5,7 +5,7 @@ import (
 	groupie "groupie/func"
 	"log"
 	"net/http"
-	"path/filepath"
+	"os"
 )
 
 func main() {
@@ -17,18 +17,21 @@ func main() {
 	// Static file serving for js but restrict folder access
 	jsDir := http.StripPrefix("/js/", http.FileServer(http.Dir("./js")))
 	http.HandleFunc("/js/", func(w http.ResponseWriter, r *http.Request) {
-		if r.URL.Path == "/js/" || filepath.Ext(r.URL.Path) == "" {
-			groupie.HandleError(w, nil, http.StatusForbidden, "Forbidden")
+		_, err := os.ReadFile("."+r.URL.Path)
+		if err != nil {
+			groupie.HandleError(w,nil,http.StatusNotFound, "Not Found")
 			return
 		}
+
 		jsDir.ServeHTTP(w, r)
 	})
 
 	// static file serving for css
 	cssDir := http.StripPrefix("/css/", http.FileServer(http.Dir("./css")))
 	http.HandleFunc("/css/", func(w http.ResponseWriter, r *http.Request) {
-		if r.URL.Path == "/css/" || filepath.Ext(r.URL.Path) == "" {
-			groupie.HandleError(w, nil, http.StatusForbidden, "Forbidden")
+		_, err := os.ReadFile("."+r.URL.Path)
+		if err != nil {
+			groupie.HandleError(w,nil,http.StatusNotFound, "Not Found")
 			return
 		}
 		cssDir.ServeHTTP(w, r)
