@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strings"
 )
 
 func main() {
@@ -29,8 +30,14 @@ func main() {
 	// static file serving for css
 	cssDir := http.StripPrefix("/css/", http.FileServer(http.Dir("./css")))
 	http.HandleFunc("/css/", func(w http.ResponseWriter, r *http.Request) {
-		_, err := os.ReadFile("."+r.URL.Path)
+		path := r.URL.Path
+
+		if strings.Contains(r.URL.Path, "group") {
+			path = strings.TrimPrefix(r.URL.Path, "/group/")
+		}
+		_, err := os.ReadFile("."+path)
 		if err != nil {
+
 			groupie.HandleError(w,nil,http.StatusNotFound, "Not Found")
 			return
 		}
