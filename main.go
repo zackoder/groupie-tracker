@@ -11,7 +11,7 @@ import (
 
 func main() {
 	// Server setup
-	port := ":8080"
+	port := ":3000"
 	http.HandleFunc("/", groupie.Index)
 	http.HandleFunc("/group/", groupie.ArtistsInfo)
 
@@ -31,13 +31,11 @@ func main() {
 	cssDir := http.StripPrefix("/css/", http.FileServer(http.Dir("./css")))
 	http.HandleFunc("/css/", func(w http.ResponseWriter, r *http.Request) {
 		path := r.URL.Path
-
 		if strings.Contains(r.URL.Path, "group") {
 			path = strings.TrimPrefix(r.URL.Path, "/group/")
 		}
 		_, err := os.ReadFile("."+path)
 		if err != nil {
-
 			groupie.HandleError(w,nil,http.StatusNotFound, "Not Found")
 			return
 		}
